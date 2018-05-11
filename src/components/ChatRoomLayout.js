@@ -30,6 +30,7 @@ class ChatRoomLayout extends Component {
   }
 
   componentDidMount() {
+    this.props.dropUnreadCount(this.props.room._id);
     this.props.markAllUnreadMessages(this.props.room._id, this.props.currentUserId);
     Keyboard.addListener('keyboardDidShow', this.keyboardShowHandler);
     Keyboard.addListener('keyboardDidHide', this.keyboardHideHandler);
@@ -37,12 +38,12 @@ class ChatRoomLayout extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.messages.length < nextProps.messages.length) {
+      this.props.dropUnreadCount(this.props.room._id);
       this.props.markAllUnreadMessages(this.props.room._id, this.props.currentUserId);
     }
   }
 
   componentWillUnmount() {
-    this.props.dropUnreadCount(this.props.room._id);
     Keyboard.removeListener('keyboardDidShow', this.keyboardShowHandler);
     Keyboard.removeListener('keyboardDidHide', this.keyboardHideHandler);
   }

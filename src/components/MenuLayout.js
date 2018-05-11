@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import { baseUrl } from '../config';
 
-import { updateCurrentUser, fetchCurrentUser } from '../actions/currentUser';
+import { updateCurrentUser } from '../actions/currentUser';
 
 import DefaultAppLayout from './DefaultAppLayout';
 import LabeledInput from './LabeledInput';
@@ -114,7 +114,7 @@ class MenuLayout extends Component {
       })
         .then(() => {
           this.setState({ loading: false });
-          this.props.fetchCurrentUser();
+          this.submitNewData();
         })
         .catch(err => console.log(err));
     }
@@ -127,8 +127,7 @@ class MenuLayout extends Component {
       email: this.state.email,
     });
 
-    await this.props.fetchCurrentUser();
-    if (this.props.user.avatarUrl) Actions.chatsList();
+    if (this.props.user.avatarUrl || this.props.firstTime) Actions.chatsList();
   }
 
   turnSelectSourceModal() {
@@ -202,7 +201,7 @@ class MenuLayout extends Component {
   render() {
     return (
       <DefaultAppLayout
-        left={this.state.name ? <IconButton icon="chevron-left" onPress={() => Actions.pop()} text="Back" /> : undefined}
+        left={this.state.name && this.props.user.name ? <IconButton icon="chevron-left" onPress={() => Actions.pop()} text="Back" /> : undefined}
         title="Your profile"
       >
         <ScrollView>
@@ -275,7 +274,6 @@ class MenuLayout extends Component {
             </View>
           </View>
         </ScrollView>
-
       </DefaultAppLayout>
     )
   }
@@ -288,4 +286,4 @@ function mapStateToProps(state) {
   });
 }
 
-export default connect(mapStateToProps, { updateCurrentUser, fetchCurrentUser })(MenuLayout);
+export default connect(mapStateToProps, { updateCurrentUser })(MenuLayout);

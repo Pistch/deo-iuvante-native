@@ -24,7 +24,32 @@ export const store = createStore(
 initializeStore(store.dispatch);
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      storeReady: store.getState().worker.ready,
+      openProfileSettings: true,
+    };
+    this.unsubscribe = store.subscribe(this.setReady.bind(this));
+  }
+
+  setReady() {
+    const state = store.getState();
+    if (!state.worker.ready) return;
+    const username = state.currentUser &&
+      state.currentUser.data &&
+      state.currentUser.data.name;
+    this.setState({
+      storeReady: true,
+      openProfileSettings: !username,
+    });
+    this.unsubscribe();
+  }
+
   render() {
+    if (!this.state.storeReady) return null;
+
     return (
       <Provider store={store}>
         <React.Fragment>
@@ -32,7 +57,12 @@ class App extends React.Component {
           <Router>
             <Scene key="root" hideNavBar>
               <Scene
-                initial={true}
+                initial={this.state.openProfileSettings}
+                key="menu"
+                component={MenuLayout}
+              />
+              <Scene
+                initial={!this.state.openProfileSettings}
                 key="chatsList"
                 component={ChatsListLayout}
               />
@@ -43,10 +73,6 @@ class App extends React.Component {
               <Scene
                 key="chatRoom"
                 component={ChatRoomLayout}
-              />
-              <Scene
-                key="menu"
-                component={MenuLayout}
               />
             </Scene>
           </Router>

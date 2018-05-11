@@ -85,10 +85,8 @@ export const sendMessage = (roomId, message, doNotAddMe) => (
     let payload;
     try {
       payload = await api.sendMessage({ roomId, text: message });
-      console.log('going to add sent message:');
       dispatch(addMessage(payload));
     } catch (e) {
-      console.log('was not able to send a message: ', e);
       sendMessage(roomId, message, true)(dispatch);
     }
   }

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontSize: 23,
+    fontSize: 20,
     paddingBottom: 7
   },
   leftButton: {
@@ -43,7 +43,7 @@ function Header({ children, left, right, loading, online }) {
       <View style={styles.leftButton}>{left}</View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {loading && <ActivityIndicator size="small" color="#fff" style={{ marginRight: 7, marginBottom: 7 }} />}
-        <Text style={styles.text}>{children}</Text>
+        <Text style={styles.text}>{children && children.length < 25 ? children : children.slice(0,22) + '...'}</Text>
         {!loading && online && (<MaterialIcons
           name="fiber-manual-record"
           size={12}

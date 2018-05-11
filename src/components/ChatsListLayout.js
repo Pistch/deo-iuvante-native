@@ -8,12 +8,6 @@ import ChatsListItem from './ChatsListItem';
 import IconButton from './IconButton';
 
 class ChatsListLayout extends Component {
-  componentDidMount() {
-    setTimeout(() => {
-      if (!this.props.currentUser.name) Actions.menu();
-    }, 500);
-  }
-
   titleText() {
     if (!this.props.networkState) return 'Connecting...';
     if (this.props.loading) return 'Updating...';

@@ -23,14 +23,16 @@ function MessageBubble(props) {
     },
     messageHeader: {
       flexDirection: 'row',
-      alignItems: 'baseline',
+      alignItems: 'flex-start',
       justifyContent: 'space-between',
-      marginBottom: 5
+      marginBottom: 5,
+      maxWidth: '100%'
     },
     usernameText: {
       color: props.isOwner ? 'white' : 'black',
       fontSize: 15,
       fontWeight: 'bold',
+      maxWidth: '85%'
     },
     timemark: {
       color: props.isOwner ? 'white' : 'black',

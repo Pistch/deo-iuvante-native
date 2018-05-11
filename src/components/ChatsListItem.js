@@ -40,7 +40,7 @@ function ChatsListItem({ name, _id, lastMessage, avatarUrl, unread, online, curr
   });
 
   let lastMessageTextWithUsername = lastMessage ?
-    `${lastMessage.userName}: ${lastMessage.text}` :
+    `${currentUserId === lastMessage.userId ? 'You' : lastMessage.userName}: ${lastMessage.text}` :
     'No messages yet';
 
   if (lastMessageTextWithUsername.length > 90) {
